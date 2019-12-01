@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=0.5" />
+    <title>Animation Final - Xiangyu Guo</title>
+    <style type="text/css" media="all">
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            color: #666;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        .contain {
+            padding-top: 20px;
+            width: 1920px;
+        }
+
+        h1 {
+            font-size: 1em;
+        }
+
+        #text-shadow-box,
+        #text-shadow-box2 {
+            position: relative;
+            width: 1920px;
+            height: 1080px;
+            background: #666;
+            overflow: hidden;
+            cursor: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-user-select: none;
+        }
+
+        #text-shadow-box div.wall,
+        #text-shadow-box2 div.wall {
+            position: absolute;
+            top: 380px;
+            left: 0;
+            width: 100%;
+        }
+
+        #text-shadow-box2 div.wall {
+            top: 300px;
+        }
+
+        #tsb-text,
+        #tsb-text2 {
+            margin: 0;
+            color: #999;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 300px;
+            line-height: 0.5em;
+            height: 1px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #tsb-text2 {
+            font-size: 70px;
+            line-height: 1em;
+        }
+
+        div.wall div {
+            position: absolute;
+            background: #999;
+            top: 180px;
+            left: 0;
+            height: 1000px;
+            width: 100%;
+        }
+
+        #tsb-spot,
+        #tsb-spot2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(spotlight3.png) top center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="contain">
+        <div id="text-shadow-box">
+            <div class="wall">
+                <p id="tsb-text">MEMORY</p>
+                <div></div>
+            </div>
+            <div id="tsb-spot"></div>
+        </div>
+        <video id='video' width="1920" height="1080" controls style='display:none'>
+            <source src="animation_final_1201.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div id="text-shadow-box2" style='display:none'>
+            <div class="wall">
+                <p id="tsb-text2">
+                    Credit to: Xiangyu Guo <br>
+                    Date: 12/1/2019<br><br>
+                    Special Thanks to: <br>
+                    Tim Szetela, Sarah E. Jenkins<br><br>
+                    <font style='font-size:40px'>Course: AFVS 153AR: Intermediate Animation</font>
+                </p>
+            </div>
+            <div id="tsb-spot2"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" language="javascript" charset="utf-8">
+        /**
+        * Zachary Johnson
+        * June 2009
+        * www.zachstronaut.com
+        */
+
+        let text;
+        let spot;
+        let video = document.getElementById("video");
+
+        ///window.onload = init;
+        init();
+
+        function init() {
+            text = document.getElementById('tsb-text');
+            text2 = document.getElementById('tsb-text2');
+            spot = document.getElementById('tsb-spot');
+            spot2 = document.getElementById('tsb-spot2');
+
+            document.getElementById('text-shadow-box').onmousemove = onMouseMove;
+            document.getElementById('text-shadow-box2').onmousemove = onMouseMove;
+            document.getElementById('text-shadow-box').ontouchmove = function (e) { e.preventDefault(); e.stopPropagation(); onMouseMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }); };
+            document.getElementById('text-shadow-box2').ontouchmove = function (e) { e.preventDefault(); e.stopPropagation(); onMouseMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }); };
+
+            onMouseMove({ clientX: 300, clientY: 200 });
+
+            document.onkeydown = (e) => {
+                if (e.keyCode === 32) {
+                    if (video.style.display !== 'none') {
+                        playPause();
+                    }
+                } else if (e.keyCode === 39) {
+                    document.getElementById('text-shadow-box').style.display = 'none';
+                    video.style.display = '';
+                    video.play();
+                }
+
+            }
+        }
+
+        function onMouseMove(e) {
+            let xm = e.clientX - 960;
+            let ym = e.clientY - 540;
+            let d = Math.sqrt(xm * xm + ym * ym);
+            text.style.textShadow = -xm + 'px ' + -ym + 'px ' + (d / 5 + 10) + 'px black';
+            text2.style.textShadow = -xm + 'px ' + -ym + 'px ' + (d / 5 + 10) + 'px black';
+
+            xm = e.clientX - 1280;
+            ym = e.clientY - 960;
+            spot.style.backgroundPosition = xm + 'px ' + ym + 'px';
+            spot2.style.backgroundPosition = xm + 'px ' + ym + 'px';
+        }
+
+
+        video.onended = () => {
+            video.style.display = 'none';
+            document.getElementById('text-shadow-box2').style.display = '';
+        };
+
+        function playPause() {
+            if (video.paused)
+                video.play();
+            else
+                video.pause();
+        }
+
+
+    </script>
+
+</body>
+
+</html>
